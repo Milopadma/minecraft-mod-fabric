@@ -20,7 +20,6 @@ import net.fabricmc.example.ModMain;
 
 // import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
-import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.client.gui.widget.SliderWidget;
 // import net.minecraft.client.sound.PositionedSoundInstance;
 // import net.minecraft.sound.SoundEvent;
@@ -35,12 +34,13 @@ public class BrightnessSlider extends SliderWidget {
 
     public BrightnessSlider(int x, int y, int width, int height, String text, double value) {
         super(x, y, width, height, Text.of(text), value);
-        this.value = value;
+        this.value = ModMain.getBrightnessValue() / 20f;
     }
 
+    // when changed, apply the new value from the slider to the brightness value
     @Override
     public void applyValue() {
-        ModMain.setBrightnessValue(this.value);
+        ModMain.setBrightnessValue(this.value * 20f);
     }
 
     @Override

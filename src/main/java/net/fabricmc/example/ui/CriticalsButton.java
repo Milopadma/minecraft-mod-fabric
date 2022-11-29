@@ -31,9 +31,15 @@ import net.minecraft.text.Text;
 
 public class CriticalsButton extends PressableWidget {
     // private static final Random RANDOM = Random.create();
+    public static String name;
 
-    public CriticalsButton(String name, int x, int y, int width, int height) {
-        super(x, y, width, height, Text.of(name));
+    public CriticalsButton(int x, int y, int width, int height) {
+        super(x, y, width, height, Text.of("Criticals: ON"));
+    }
+
+    // class methods
+    public void setName(String toname) {
+        name = toname;
     }
 
     @Override
@@ -41,8 +47,10 @@ public class CriticalsButton extends PressableWidget {
         // toggle criticals
         if (ModMain.isCriticalsEnabled()) {
             ModMain.setCriticalsEnabled(false);
+            setName("Criticals: OFF");
         } else {
             ModMain.setCriticalsEnabled(true);
+            setName("Criticals: ON");
         }
     }
 

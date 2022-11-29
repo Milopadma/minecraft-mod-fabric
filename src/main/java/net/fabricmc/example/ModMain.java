@@ -27,8 +27,8 @@ public class ModMain implements ModInitializer {
     public static final Logger log = LogManager.getLogger(MOD_ID);
 
     // class variables
-    private static boolean isCriticalsEnabled;
-    private static double brightnessValue;
+    private static boolean isCriticalsEnabled = true;
+    private static double brightnessValue = 10;
 
     // class methods
     // getters and setters
@@ -72,9 +72,9 @@ public class ModMain implements ModInitializer {
             optionsButton.setWidth(98);
 
             // Add a new button
-            buttons.add(new CriticalsButton("Criticals", (screen.width / 2) - 32, ((screen.height / 4)), 72, 20));
+            buttons.add(new CriticalsButton((screen.width / 2) - 64, ((screen.height / 4)) + 128, 72, 20));
             // add the new slider
-            buttons.add(new BrightnessSlider((screen.width / 2) - 32, ((screen.height / 4) + 128), 72, 20, "Brightness",
+            buttons.add(new BrightnessSlider((screen.width / 2) + 32, ((screen.height / 4) + 128), 72, 20, "Brightness",
                     windowHeight));
 
             // Testing:
@@ -104,5 +104,4 @@ public class ModMain implements ModInitializer {
             });
         }
     }
-
 }
