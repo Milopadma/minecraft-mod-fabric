@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package net.fabricmc.example;
+package net.fabricmc.deprecated;
 
 import java.util.List;
 
@@ -26,6 +26,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.example.ui.CriticalsButton;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
@@ -61,13 +62,13 @@ public final class ModMenu implements ClientModInitializer {
             optionsButton.setWidth(98);
 
             // Add a new button
-            buttons.add(new SoundButton((screen.width / 2) + 2, ((screen.height / 4) + 96), 72, 20));
+            buttons.add(new CriticalsButton("Test", (screen.width / 2) + 2, ((screen.height / 4) + 96), 72, 20));
 
             // Testing:
             // Some automatic validation that the screen list works, make sure the buttons
             // we added are on the list of child elements
             screen.children().stream()
-                    .filter(element -> element instanceof SoundButton)
+                    .filter(element -> element instanceof CriticalsButton)
                     .findAny()
                     .orElseThrow(
                             () -> new AssertionError("Failed to find the \"Sound\" button in the screen's elements"));

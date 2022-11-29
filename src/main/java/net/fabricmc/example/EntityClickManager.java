@@ -13,13 +13,11 @@ import net.minecraft.world.World;
 
 public class EntityClickManager implements AttackEntityCallback {
 
-    private boolean criticals = true;
-
     // this is called whenever a player attacks an entity
     @Override
     public ActionResult interact(PlayerEntity playerEntity, World world, Hand hand, net.minecraft.entity.Entity entity,
             @Nullable EntityHitResult hitResult) {
-        if (criticals) {
+        if (ModMain.isCriticalsEnabled()) {
             MinecraftClient.getInstance().getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(
                     playerEntity.getX(), playerEntity.getY() + 0.001, playerEntity.getZ(), false));
             MinecraftClient.getInstance().getNetworkHandler().sendPacket(new PlayerMoveC2SPacket.PositionAndOnGround(

@@ -1,4 +1,6 @@
-package net.fabricmc.example;
+package net.fabricmc.example.ui;
+
+import net.fabricmc.example.ModMain;
 
 /*
  * Copyright (c) 2016, 2017, 2018, 2019 FabricMC
@@ -16,29 +18,34 @@ package net.fabricmc.example;
  * limitations under the License.
  */
 
-import net.minecraft.client.MinecraftClient;
+// import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.PressableWidget;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.client.gui.widget.SliderWidget;
+// import net.minecraft.client.sound.PositionedSoundInstance;
+// import net.minecraft.sound.SoundEvent;
+// import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.RegistryEntry;
+// import net.minecraft.util.math.random.Random;
+// import net.minecraft.util.registry.Registry;
+// import net.minecraft.util.registry.RegistryEntry;
 
-class SoundButton extends PressableWidget {
-    private static final Random RANDOM = Random.create();
+public class BrightnessSlider extends SliderWidget {
+    // private static final Random RANDOM = Random.create();
 
-    SoundButton(int x, int y, int width, int height) {
-        super(x, y, width, height, Text.of("Sound Button"));
+    public BrightnessSlider(int x, int y, int width, int height, String text, double value) {
+        super(x, y, width, height, Text.of(text), value);
+        this.value = value;
     }
 
     @Override
-    public void onPress() {
-        final SoundEvent event = Registry.SOUND_EVENT.getRandom(RANDOM).map(RegistryEntry::value)
-                .orElse(SoundEvents.ENTITY_GENERIC_EXPLODE);
-        MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(event, 1.0F, 1.0F));
+    public void applyValue() {
+        ModMain.setBrightnessValue(this.value);
+    }
+
+    @Override
+    public void updateMessage() {
+
     }
 
     @Override
