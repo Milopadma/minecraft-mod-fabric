@@ -1,14 +1,26 @@
-package net.fabricmc.example;
+/*
+ * Copyright (c) 2016, 2017, 2018, 2019 FabricMC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import net.fabricmc.api.ModInitializer;
+package net.fabricmc.example;
 
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import net.fabricmc.fabric.api.client.screen.v1.Screens;
-import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -24,25 +36,22 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.widget.ClickableWidget;
 
-public class ModMain implements ModInitializer {
-    private static final String MOD_ID = "fullbright+crit";
-    public static final Logger log = LogManager.getLogger(MOD_ID);
-
-    private static void log(String message) {
-        log.info("[{}] {}", log.getName(), message);
-    }
+@Environment(EnvType.CLIENT)
+public final class ModMenu implements ClientModInitializer {
+    private static final Logger LOGGER = LoggerFactory.getLogger("FabricScreenApiTests");
 
     @Override
-    public void onInitialize() {
-        log("Initialization");
-        ExampleMod.LOGGER.info("calling from modmain!"); // this calls
+    public void onInitializeClient() {
+        LOGGER.info("Started Screen Testmod");
+        ScreenEvents.BEFORE_INIT.register((client, screen, width, height) -> {
+            // TODO: Write tests listening to addition of child elements
+        });
 
-        AttackEntityCallback.EVENT.register(new EntityClickManager());
         ScreenEvents.AFTER_INIT.register(this::afterInitScreen);
     }
 
     private void afterInitScreen(MinecraftClient client, Screen screen, int windowWidth, int windowHeight) {
-        log.info("Initializing {}", screen.getClass().getName());
+        LOGGER.info("Initializing {}", screen.getClass().getName());
 
         if (screen instanceof TitleScreen) {
             final List<ClickableWidget> buttons = Screens.getButtons(screen);
@@ -72,14 +81,13 @@ public class ModMain implements ModInitializer {
             });
 
             ScreenKeyboardEvents.allowKeyPress(screen).register((_screen, key, scancode, modifiers) -> {
-                log.info("After Pressed, Code: {}, Scancode: {}, Modifiers: {}", key, scancode, modifiers);
+                LOGGER.info("After Pressed, Code: {}, Scancode: {}, Modifiers: {}", key, scancode, modifiers);
                 return true; // Let actions continue
             });
 
             ScreenKeyboardEvents.afterKeyPress(screen).register((_screen, key, scancode, modifiers) -> {
-                log.warn("Pressed, Code: {}, Scancode: {}, Modifiers: {}", key, scancode, modifiers);
+                LOGGER.warn("Pressed, Code: {}, Scancode: {}, Modifiers: {}", key, scancode, modifiers);
             });
         }
     }
-
 }

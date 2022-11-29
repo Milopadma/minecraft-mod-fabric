@@ -1,11 +1,8 @@
 package net.fabricmc.example;
 
-import javax.swing.text.html.parser.Entity;
-
 import org.jetbrains.annotations.Nullable;
 
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
-import net.minecraft.block.entity.StructureBlockBlockEntity.Action;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.c2s.play.PlayerMoveC2SPacket;

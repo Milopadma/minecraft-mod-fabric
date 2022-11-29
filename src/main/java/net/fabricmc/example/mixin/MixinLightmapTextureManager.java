@@ -5,7 +5,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import net.fabricmc.example.ExampleMod;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.client.render.LightmapTextureManager;
@@ -26,7 +25,6 @@ public class MixinLightmapTextureManager {
 	// this passes whatever the option is to the method as everytime
 	// Lightmaptexturemanager is called, the modified brightness value is passed in
 	private SimpleOption<Double> getFieldValue(GameOptions options) {
-		ExampleMod.LOGGER.info("called");
 		return brightness;
 	}
 }
