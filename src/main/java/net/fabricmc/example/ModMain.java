@@ -69,13 +69,14 @@ public class ModMain implements ModInitializer {
 
             // Shrink the realms button, should be the third button on the list
             final ClickableWidget optionsButton = buttons.get(8);
-            optionsButton.setWidth(98);
+            // optionsButton.setWidth(75);
 
             // Add a new button
-            buttons.add(new CriticalsButton((screen.width / 2) - 64, ((screen.height / 4)) + 128, 72, 20));
+            buttons.add(new CriticalsButton(screen.width / 2 + 5, screen.height / 6 + 144 - 6, 75, 20));
             // add the new slider
-            buttons.add(new BrightnessSlider((screen.width / 2) + 32, ((screen.height / 4) + 128), 72, 20, "Brightness",
-                    windowHeight));
+            buttons.add(
+                    new BrightnessSlider(screen.width / 2 + 80, screen.height / 6 + 144 - 6, 75, 20, "Brightness",
+                            windowHeight));
 
             // Testing:
             // Some automatic validation that the screen list works, make sure the buttons
@@ -87,10 +88,12 @@ public class ModMain implements ModInitializer {
                             () -> new AssertionError("Failed to find the button in the screen's elements"));
 
             // Register render event to draw an icon on the screen
-            ScreenEvents.afterRender(screen).register((_screen, matrices, mouseX, mouseY, tickDelta) -> {
+            ScreenEvents.afterRender(screen).register((_screen, matrices, mouseX, mouseY,
+                    tickDelta) -> {
                 // Render an armor icon to test
                 RenderSystem.setShaderTexture(0, InGameHud.GUI_ICONS_TEXTURE);
-                DrawableHelper.drawTexture(matrices, (screen.width / 2) - 124, (screen.height / 4) + 96, 20, 20, 34, 9,
+                DrawableHelper.drawTexture(matrices, (screen.width / 2) - 124, (screen.height
+                        / 4) + 96, 20, 20, 34, 9,
                         9, 9, 256, 256);
             });
 

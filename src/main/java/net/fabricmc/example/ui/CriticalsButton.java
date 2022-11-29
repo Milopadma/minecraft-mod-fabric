@@ -1,6 +1,9 @@
 package net.fabricmc.example.ui;
 
 import net.fabricmc.example.ModMain;
+import net.fabricmc.loader.language.LanguageAdapter.Options;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 
 /*
  * Copyright (c) 2016, 2017, 2018, 2019 FabricMC
@@ -31,15 +34,16 @@ import net.minecraft.text.Text;
 
 public class CriticalsButton extends PressableWidget {
     // private static final Random RANDOM = Random.create();
-    public static String name;
+    public static String label;
 
+    // constructor
     public CriticalsButton(int x, int y, int width, int height) {
-        super(x, y, width, height, Text.of("Criticals: ON"));
+        super(x, y, width, height, Text.of(label));
     }
 
     // class methods
     public void setName(String toname) {
-        name = toname;
+        label = toname;
     }
 
     @Override
@@ -48,9 +52,12 @@ public class CriticalsButton extends PressableWidget {
         if (ModMain.isCriticalsEnabled()) {
             ModMain.setCriticalsEnabled(false);
             setName("Criticals: OFF");
+            this.setMessage(Text.of("Criticals: OFF"));
+            // to reload the screen options
         } else {
             ModMain.setCriticalsEnabled(true);
             setName("Criticals: ON");
+            this.setMessage(Text.of("Criticals: ON"));
         }
     }
 
