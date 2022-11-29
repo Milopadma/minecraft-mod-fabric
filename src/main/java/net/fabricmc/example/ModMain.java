@@ -3,6 +3,7 @@ package net.fabricmc.example;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.example.ui.BrightnessSlider;
 import net.fabricmc.example.ui.CriticalsButton;
+import net.fabricmc.example.ui.ModMenu;
 
 import java.util.List;
 
@@ -20,7 +21,9 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.text.Text;
 
 public class ModMain implements ModInitializer {
     private static final String MOD_ID = "fullbright+crit";
@@ -65,37 +68,38 @@ public class ModMain implements ModInitializer {
         log.info("Initializing {}", screen.getClass().getName());
 
         if (screen instanceof OptionsScreen) {
+            // put the existing buttons in this list
             final List<ClickableWidget> buttons = Screens.getButtons(screen);
-
-            // Shrink the realms button, should be the third button on the list
-            final ClickableWidget optionsButton = buttons.get(8);
-            // optionsButton.setWidth(75);
-
             // Add a new button
-            buttons.add(new CriticalsButton(screen.width / 2 + 5, screen.height / 6 + 144 - 6, 75, 20));
+            // buttons.add(new CriticalsButton(screen.width / 2 + 5, screen.height / 6 + 144
+            // - 6, 75, 20));
+            buttons.add(new ButtonWidget(screen.width / 2 + 5, screen.height / 6 + 144 - 6, 150, 20,
+                    Text.translatable("Mylo's Mod Menu"),
+                    button -> client.setScreen(new ModMenu(screen, client.options))));
             // add the new slider
-            buttons.add(
-                    new BrightnessSlider(screen.width / 2 + 80, screen.height / 6 + 144 - 6, 75, 20, "Brightness",
-                            windowHeight));
+            // buttons.add(
+            // new BrightnessSlider(screen.width / 2 + 80, screen.height / 6 + 144 - 6, 75,
+            // 20, "Brightness",
+            // windowHeight));
 
             // Testing:
             // Some automatic validation that the screen list works, make sure the buttons
             // we added are on the list of child elements
             screen.children().stream()
-                    .filter(element -> element instanceof CriticalsButton)
+                    .filter(element -> element instanceof ButtonWidget)
                     .findAny()
                     .orElseThrow(
                             () -> new AssertionError("Failed to find the button in the screen's elements"));
 
-            // Register render event to draw an icon on the screen
-            ScreenEvents.afterRender(screen).register((_screen, matrices, mouseX, mouseY,
-                    tickDelta) -> {
-                // Render an armor icon to test
-                RenderSystem.setShaderTexture(0, InGameHud.GUI_ICONS_TEXTURE);
-                DrawableHelper.drawTexture(matrices, (screen.width / 2) - 124, (screen.height
-                        / 4) + 96, 20, 20, 34, 9,
-                        9, 9, 256, 256);
-            });
+            // // Register render event to draw an icon on the screen
+            // ScreenEvents.afterRender(screen).register((_screen, matrices, mouseX, mouseY,
+            // tickDelta) -> {
+            // // // Render an armor icon to test
+            // // RenderSystem.setShaderTexture(0, InGameHud.GUI_ICONS_TEXTURE);
+            // DrawableHelper.drawTexture(matrices, (screen.width / 2) - 124, (screen.height
+            // / 4) + 96, 20, 20, 34, 9,
+            // 9, 9, 256, 256);
+            // });
 
             ScreenKeyboardEvents.allowKeyPress(screen).register((_screen, key, scancode, modifiers) -> {
                 log.info("After Pressed, Code: {}, Scancode: {}, Modifiers: {}", key, scancode, modifiers);
