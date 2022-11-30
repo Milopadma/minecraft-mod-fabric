@@ -34,20 +34,27 @@ public class ModMain implements ModInitializer {
     // class variables
     private static boolean isCriticalsEnabled = true; // on init its true
     private static double brightnessValue = 5; // on init its 10
+    private float internalFullbrightState;
+    private int maxFullbrightStates = 20;
 
-    // brightness value using simpleoption
-    private static final SimpleOption<Double> brightnessOption = new SimpleOption<>("options.gamma",
-            SimpleOption.emptyTooltip(),
+    // brightness gamma value bypass by using a new simpleoption
+    private final SimpleOption<Double> gammaBypass = new SimpleOption<>("options.gamma", SimpleOption.emptyTooltip(),
             (optionText, value) -> Text.empty(), SimpleOption.DoubleSliderCallbacks.INSTANCE.withModifier(
-                    d -> (double) ModMain.getBrightnessValue(), d -> 10.0),
-            5.0, value -> {
+                    d -> (double) getInternalState(), d -> 1),
+            0.5, value -> {
             });
 
     // class methods
     // getters and setters
+    private float getInternalState() {
+        return 20f * internalFullbrightState / maxFullbrightStates;
+    }
+
     public static boolean isCriticalsEnabled() {
         return isCriticalsEnabled;
     }
+
+    // gets the state of the fullbright bypass, true if its not 0
 
     public static void setCriticalsEnabled(boolean bool) {
         isCriticalsEnabled = bool;
@@ -63,16 +70,16 @@ public class ModMain implements ModInitializer {
     public static void setBrightnessValue(double value) {
         brightnessValue = value * 20;
         // changes the value in the game options
-        client.options.getGamma().setValue(value);
-        // set the new brightness option
-        brightnessOption.setValue(value);
+        client.options.getGamma().setValue(brightnessValue);
         // close this resource leak
         log.info("Brightness value set to " + brightnessValue);
         log.info("Current brightness value get from options file is: " + client.options.getGamma().getValue());
     }
 
-    public static SimpleOption<Double> getBrightnessOption() {
-        return brightnessOption;
+    public SimpleOption<Double> getGammaBypass() {
+        // force... the value?
+        gammaBypass.setValue(1.0);
+        return gammaBypass;
     }
 
     private static void log(String message) {
