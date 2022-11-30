@@ -34,13 +34,13 @@ public class BrightnessSlider extends SliderWidget {
 
     public BrightnessSlider(int x, int y, int width, int height, String text, double value) {
         super(x, y, width, height, Text.of(text), value);
-        this.value = ModMain.getBrightnessValue() / 20f;
+        this.value = ModMain.getBrightnessValue();
     }
 
     // when changed, apply the new value from the slider to the brightness value
     @Override
     public void applyValue() {
-        ModMain.setBrightnessValue(this.value * 20f);
+        ModMain.setBrightnessValue(this.value);
     }
 
     @Override

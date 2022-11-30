@@ -34,7 +34,7 @@ import net.minecraft.text.Text;
 
 public class CriticalsButton extends PressableWidget {
     // private static final Random RANDOM = Random.create();
-    public static String label;
+    public static String label = "Criticals: ON"; // its on by default
 
     // constructor
     public CriticalsButton(int x, int y, int width, int height) {

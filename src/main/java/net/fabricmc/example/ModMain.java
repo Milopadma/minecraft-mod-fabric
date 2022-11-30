@@ -12,17 +12,19 @@ import org.apache.logging.log4j.Logger;
 
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
+import net.fabricmc.fabric.mixin.networking.client.accessor.MinecraftClientAccessor;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 
 public class ModMain implements ModInitializer {
@@ -30,8 +32,16 @@ public class ModMain implements ModInitializer {
     public static final Logger log = LogManager.getLogger(MOD_ID);
 
     // class variables
-    private static boolean isCriticalsEnabled = true;
-    private static double brightnessValue = 10;
+    private static boolean isCriticalsEnabled = true; // on init its true
+    private static double brightnessValue = 5; // on init its 10
+
+    // brightness value using simpleoption
+    private static final SimpleOption<Double> brightnessOption = new SimpleOption<>("options.gamma",
+            SimpleOption.emptyTooltip(),
+            (optionText, value) -> Text.empty(), SimpleOption.DoubleSliderCallbacks.INSTANCE.withModifier(
+                    d -> (double) ModMain.getBrightnessValue(), d -> 10.0),
+            5.0, value -> {
+            });
 
     // class methods
     // getters and setters
@@ -47,8 +57,22 @@ public class ModMain implements ModInitializer {
         return brightnessValue;
     }
 
+    // client init
+    public static MinecraftClient client = MinecraftClient.getInstance();
+
     public static void setBrightnessValue(double value) {
-        brightnessValue = value;
+        brightnessValue = value * 20;
+        // changes the value in the game options
+        client.options.getGamma().setValue(value);
+        // set the new brightness option
+        brightnessOption.setValue(value);
+        // close this resource leak
+        log.info("Brightness value set to " + brightnessValue);
+        log.info("Current brightness value get from options file is: " + client.options.getGamma().getValue());
+    }
+
+    public static SimpleOption<Double> getBrightnessOption() {
+        return brightnessOption;
     }
 
     private static void log(String message) {
