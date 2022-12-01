@@ -31,10 +31,9 @@ import net.minecraft.text.Text;
 
 public class BrightnessSlider extends SliderWidget {
     // private static final Random RANDOM = Random.create();
-
     public BrightnessSlider(int x, int y, int width, int height, String text, double value) {
         super(x, y, width, height, Text.of(text), value);
-        this.value = ModMain.getBrightnessValue();
+        this.value = ModMain.getBrightnessValue() / 20;
     }
 
     // when changed, apply the new value from the slider to the brightness value

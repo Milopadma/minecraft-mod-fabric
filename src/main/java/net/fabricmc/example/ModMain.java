@@ -83,17 +83,22 @@ public class ModMain implements ModInitializer {
         return internalFullbrightState;
     }
 
-    public static void setInternalFullbrightState(double value) {
-        internalFullbrightState = (float) value;
+    public static void setInternalFullbrightState(double brightnessValue) {
+        internalFullbrightState = (float) brightnessValue;
     }
 
     // class methods
     public static void setBrightness(double value) {
-        brightnessValue = value * 20;
+        setBrightnessValue(value * 20);
+        // brightnessValue = value * 20;
+
         // update the internal state
-        internalFullbrightState = (float) brightnessValue;
+        setInternalFullbrightState(brightnessValue);
+        // internalFullbrightState = (float) brightnessValue;
+
         // update the gammabypass value as well
         gammaBypass.setValue(brightnessValue);
+
         // changes the value in the game options
         client.options.getGamma().setValue(brightnessValue);
 
