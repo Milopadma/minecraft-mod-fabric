@@ -34,44 +34,54 @@ public class ModMain implements ModInitializer {
     // class variables
     private static boolean isCriticalsEnabled = true; // on init its true
     private static double brightnessValue = 5; // on init its 10
-    private float internalFullbrightState;
-    private int maxFullbrightStates = 20;
+    private static float internalFullbrightState = 1.0f; // on init its 1.0f
+    private static int maxFullbrightStates = 20; // on init its 20
+
+    // client init
+    public static MinecraftClient client = MinecraftClient.getInstance();
 
     // brightness gamma value bypass by using a new simpleoption
-    private final SimpleOption<Double> gammaBypass = new SimpleOption<>("options.gamma", SimpleOption.emptyTooltip(),
+    private static final SimpleOption<Double> gammaBypass = new SimpleOption<>("options.gamma",
+            SimpleOption.emptyTooltip(),
             (optionText, value) -> Text.empty(), SimpleOption.DoubleSliderCallbacks.INSTANCE.withModifier(
                     d -> (double) getInternalState(), d -> 1),
             0.5, value -> {
             });
 
     // class methods
-    // getters and setters
-    private float getInternalState() {
-        return 20f * internalFullbrightState / maxFullbrightStates;
-    }
-
+    // criticals functionality
     public static boolean isCriticalsEnabled() {
         return isCriticalsEnabled;
     }
 
-    // gets the state of the fullbright bypass, true if its not 0
-
     public static void setCriticalsEnabled(boolean bool) {
         isCriticalsEnabled = bool;
+    }
+
+    // brightness functionality
+    // this is called from the mixin, returns the brightness value as a simple
+    // option
+    public static SimpleOption<Double> getBrightnessOption() {
+        return gammaBypass;
+    }
+
+    private static float getInternalState() {
+        return 20f * internalFullbrightState / maxFullbrightStates;
     }
 
     public static double getBrightnessValue() {
         return brightnessValue;
     }
 
-    // client init
-    public static MinecraftClient client = MinecraftClient.getInstance();
-
     public static void setBrightnessValue(double value) {
         brightnessValue = value * 20;
+        // update the internal state
+        internalFullbrightState = (float) brightnessValue;
+        // update the gammabypass value as well
+        gammaBypass.setValue(brightnessValue);
         // changes the value in the game options
         client.options.getGamma().setValue(brightnessValue);
-        // close this resource leak
+
         log.info("Brightness value set to " + brightnessValue);
         log.info("Current brightness value get from options file is: " + client.options.getGamma().getValue());
     }
@@ -82,6 +92,7 @@ public class ModMain implements ModInitializer {
         return gammaBypass;
     }
 
+    // basic console log
     private static void log(String message) {
         log.info("[{}] {}", log.getName(), message);
     }
