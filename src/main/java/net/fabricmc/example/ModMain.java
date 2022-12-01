@@ -59,6 +59,14 @@ public class ModMain implements ModInitializer {
         return gammaBypass;
     }
 
+    public static void setBrightnessOption(double value) {
+        brightnessValue = value;
+    }
+
+    // private static void setInternalState() {
+    // internalFullbrightState = (float) (brightnessValue / maxFullbrightStates);
+    // }
+
     private static float getInternalState() {
         return 20f * internalFullbrightState / maxFullbrightStates;
     }
@@ -68,6 +76,19 @@ public class ModMain implements ModInitializer {
     }
 
     public static void setBrightnessValue(double value) {
+        brightnessValue = value;
+    }
+
+    public static double getInternalFullbrightState() {
+        return internalFullbrightState;
+    }
+
+    public static void setInternalFullbrightState(double value) {
+        internalFullbrightState = (float) value;
+    }
+
+    // class methods
+    public static void setBrightness(double value) {
         brightnessValue = value * 20;
         // update the internal state
         internalFullbrightState = (float) brightnessValue;

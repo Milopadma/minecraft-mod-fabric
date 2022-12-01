@@ -40,7 +40,7 @@ public class BrightnessSlider extends SliderWidget {
     // when changed, apply the new value from the slider to the brightness value
     @Override
     public void applyValue() {
-        ModMain.setBrightnessValue(this.value);
+        ModMain.setBrightness(this.value);
     }
 
     @Override
