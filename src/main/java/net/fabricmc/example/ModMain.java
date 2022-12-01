@@ -1,8 +1,6 @@
 package net.fabricmc.example;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.example.ui.BrightnessSlider;
-import net.fabricmc.example.ui.CriticalsButton;
 import net.fabricmc.example.ui.ModMenu;
 
 import java.util.List;
@@ -12,14 +10,10 @@ import org.apache.logging.log4j.Logger;
 
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
-import net.fabricmc.fabric.mixin.networking.client.accessor.MinecraftClientAccessor;
-
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -35,7 +29,7 @@ public class ModMain implements ModInitializer {
     private static boolean isCriticalsEnabled = true; // on init its true
     private static double brightnessValue = 5; // on init its 10
     private static float internalFullbrightState = 1.0f; // on init its 1.0f
-    private static int maxFullbrightStates = 20; // on init its 20
+    private static int maxFullbrightStates = 20;
 
     // client init
     public static MinecraftClient client = MinecraftClient.getInstance();

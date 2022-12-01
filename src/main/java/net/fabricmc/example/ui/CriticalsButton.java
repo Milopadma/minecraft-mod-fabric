@@ -1,9 +1,6 @@
 package net.fabricmc.example.ui;
 
 import net.fabricmc.example.ModMain;
-import net.fabricmc.loader.language.LanguageAdapter.Options;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 
 /*
  * Copyright (c) 2016, 2017, 2018, 2019 FabricMC
@@ -21,16 +18,9 @@ import net.minecraft.client.gui.screen.Screen;
  * limitations under the License.
  */
 
-// import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.PressableWidget;
-// import net.minecraft.client.sound.PositionedSoundInstance;
-// import net.minecraft.sound.SoundEvent;
-// import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-// import net.minecraft.util.math.random.Random;
-// import net.minecraft.util.registry.Registry;
-// import net.minecraft.util.registry.RegistryEntry;
 
 public class CriticalsButton extends PressableWidget {
     // private static final Random RANDOM = Random.create();

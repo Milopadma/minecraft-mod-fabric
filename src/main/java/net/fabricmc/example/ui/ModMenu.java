@@ -1,64 +1,27 @@
 package net.fabricmc.example.ui;
 
-import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.option.AccessibilityOptionsScreen;
-import net.minecraft.client.gui.screen.option.ChatOptionsScreen;
-import net.minecraft.client.gui.screen.option.ControlsOptionsScreen;
-import net.minecraft.client.gui.screen.option.LanguageOptionsScreen;
-import net.minecraft.client.gui.screen.option.OnlineOptionsScreen;
-import net.minecraft.client.gui.screen.option.SkinOptionsScreen;
-import net.minecraft.client.gui.screen.option.SoundOptionsScreen;
-import net.minecraft.client.gui.screen.option.VideoOptionsScreen;
-import net.minecraft.client.gui.screen.pack.PackScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.CyclingButtonWidget;
-import net.minecraft.client.gui.widget.LockButtonWidget;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.packet.c2s.play.UpdateDifficultyC2SPacket;
-import net.minecraft.network.packet.c2s.play.UpdateDifficultyLockC2SPacket;
-import net.minecraft.resource.ResourcePackManager;
-import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
 import net.minecraft.world.Difficulty;
 
 //from modmain
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.example.ui.BrightnessSlider;
-import net.fabricmc.example.ui.CriticalsButton;
-
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import net.fabricmc.fabric.api.client.screen.v1.Screens;
-import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
-import com.mojang.blaze3d.systems.RenderSystem;
-
-import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
-import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
-import net.minecraft.client.gui.widget.ClickableWidget;
 
 @Environment(value = EnvType.CLIENT)
 public class ModMenu
         extends Screen {
     private final Screen parent;
     private final GameOptions settings;
-    private CyclingButtonWidget<Difficulty> difficultyButton;
-    private LockButtonWidget lockDifficultyButton;
 
     private int windowHeight = MinecraftClient.getInstance().currentScreen.height;
 
@@ -71,7 +34,7 @@ public class ModMenu
     @Override
     protected void init() {
         int i = 0;
-        for (SimpleOption simpleOption : new SimpleOption[] { this.settings.getFov() }) {
+        for (SimpleOption<?> simpleOption : new SimpleOption[] { this.settings.getFov() }) {
             int j = this.width / 2 - 155 + i % 2 * 160;
             int k = this.height / 6 - 12 + 24 * (i >> 1);
             this.addDrawableChild(simpleOption.createButton(this.client.options, j, k, 150));
@@ -144,35 +107,6 @@ public class ModMenu
                         height / 6 - 12 + 24 * (buttonIndex >> 1), 150, 20, Text.translatable(translationKey),
                         (button, difficulty) -> client.getNetworkHandler()
                                 .sendPacket(new UpdateDifficultyC2SPacket((Difficulty) ((Object) difficulty))));
-    }
-
-    private void refreshResourcePacks(ResourcePackManager resourcePackManager) {
-        ImmutableList<String> list = ImmutableList.copyOf(this.settings.resourcePacks);
-        this.settings.resourcePacks.clear();
-        this.settings.incompatibleResourcePacks.clear();
-        for (ResourcePackProfile resourcePackProfile : resourcePackManager.getEnabledProfiles()) {
-            if (resourcePackProfile.isPinned())
-                continue;
-            this.settings.resourcePacks.add(resourcePackProfile.getName());
-            if (resourcePackProfile.getCompatibility().isCompatible())
-                continue;
-            this.settings.incompatibleResourcePacks.add(resourcePackProfile.getName());
-        }
-        this.settings.write();
-        ImmutableList<String> list2 = ImmutableList.copyOf(this.settings.resourcePacks);
-        if (!list2.equals(list)) {
-            this.client.reloadResources();
-        }
-    }
-
-    private void lockDifficulty(boolean difficultyLocked) {
-        this.client.setScreen(this);
-        if (difficultyLocked && this.client.world != null) {
-            this.client.getNetworkHandler().sendPacket(new UpdateDifficultyLockC2SPacket(true));
-            this.lockDifficultyButton.setLocked(true);
-            this.lockDifficultyButton.active = false;
-            this.difficultyButton.active = false;
-        }
     }
 
     @Override
