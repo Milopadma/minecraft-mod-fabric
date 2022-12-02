@@ -9,7 +9,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.c2s.play.*;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Box;
 
 @Mixin(ClientConnection.class)
 public class MixinClientConnections {
@@ -38,10 +38,18 @@ public class MixinClientConnections {
                 Double yVelocity = ModMain.player.getVelocity().y;
                 // if the yvelocity is less than -0.7, then the player is falling
                 if (yVelocity < -0.7) {
-                    // set a new velocity to cancel the fall
-                    ModMain.player.setVelocity(new Vec3d(0, 0, 0));
-                    // log this into the console
-                    ModMain.log.info("PlayerMoveC2SPacket packet cancelled");
+                    // create a 2 block high box below the player
+                    Box box = new Box(ModMain.player.getX(), ModMain.player.getY() - 2, ModMain.player.getZ(),
+                            ModMain.player.getX() + 1, ModMain.player.getY() - 1, ModMain.player.getZ() + 1);
+                    // if there are blocks inside the box, then cancel the velocity
+                    if (!ModMain.player.world.isSpaceEmpty(box)) {
+                        // set a new velocity to cancel the fall
+                        ModMain.player.setVelocity(ModMain.player.getVelocity().x, 0.3, ModMain.player.getVelocity().z);
+                        // not sure what this does yet
+                        ModMain.player.velocityDirty = true;
+                        // log this into the console
+                        ModMain.log.info("Player is falling, cancelling velocity");
+                    }
                 }
             }
         }
