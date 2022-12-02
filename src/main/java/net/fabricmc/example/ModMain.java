@@ -93,6 +93,10 @@ public class ModMain implements ModInitializer {
         return ANTIFALL;
     }
 
+    public static void setANTIFALL(boolean bool) {
+        ANTIFALL = bool;
+    }
+
     // class methods
     public static void setBrightness(double value) {
         setBrightnessValue(value * 20);
