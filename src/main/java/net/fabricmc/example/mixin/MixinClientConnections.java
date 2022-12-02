@@ -12,7 +12,7 @@ import net.minecraft.util.math.Vec3d;
 
 @Mixin(ClientConnection.class)
 public class MixinClientConnections {
-
+    // class fields
     @ModifyVariable(at = @At("HEAD"), method = "sendInternal", ordinal = 0)
     // this modifies the packet sent from the client to the server
     public Packet<?> sendInternal(Packet<?> packet) {
@@ -30,7 +30,7 @@ public class MixinClientConnections {
                 // this is the yvelocity of the player
                 Double yVelocity = ModMain.player.getVelocity().y;
                 // if the yvelocity is less than -0.7, then the player is falling
-                if(yVelocity < -0.7){
+                if (yVelocity < -0.7) {
                     // set a new velocity to cancel the fall
                     ModMain.player.setVelocity(new Vec3d(0, 0, 0));
                     // log this into the console

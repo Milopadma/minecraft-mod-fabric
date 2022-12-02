@@ -36,7 +36,7 @@ public class ModMain implements ModInitializer {
 
     // client init
     public static MinecraftClient client = MinecraftClient.getInstance();
-    public static ClientPlayerEntity player = client.player;
+    public static ClientPlayerEntity player;
 
     // brightness gamma value bypass by using a new simpleoption
     private static final SimpleOption<Double> gammaBypass = new SimpleOption<>("options.gamma",
@@ -186,5 +186,4 @@ public class ModMain implements ModInitializer {
             });
         }
     }
-
 }
