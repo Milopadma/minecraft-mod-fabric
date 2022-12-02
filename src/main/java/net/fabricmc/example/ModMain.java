@@ -1,6 +1,7 @@
 package net.fabricmc.example;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.deprecated.ExampleMod;
 import net.fabricmc.example.ui.ModMenu;
 
 import java.util.List;
@@ -18,8 +19,10 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
+import net.minecraft.world.World;
 
 public class ModMain implements ModInitializer {
     private static final String MOD_ID = "fullbright+crit";
@@ -30,9 +33,17 @@ public class ModMain implements ModInitializer {
     private static double brightnessValue = 5; // on init its 10
     private static float internalFullbrightState = 1.0f; // on init its 1.0f
     private static int maxFullbrightStates = 20;
+    private static boolean ANTIFALL = true; // true by default //TODO change this to false later
 
     // client init
     public static MinecraftClient client = MinecraftClient.getInstance();
+    public static ClientPlayerEntity player = MinecraftClient.getInstance().player;
+
+    public static World clientWorld = MinecraftClient.getInstance().world;
+
+    public static void setPlayer(ClientPlayerEntity clientPlayerEntity) {
+        player = clientPlayerEntity;
+    }
 
     // brightness gamma value bypass by using a new simpleoption
     private static final SimpleOption<Double> gammaBypass = new SimpleOption<>("options.gamma",
@@ -43,7 +54,7 @@ public class ModMain implements ModInitializer {
             });
 
     // class methods
-    // criticals functionality
+    // * criticals functionality
     public static boolean isCriticalsEnabled() {
         return isCriticalsEnabled;
     }
@@ -52,7 +63,7 @@ public class ModMain implements ModInitializer {
         isCriticalsEnabled = bool;
     }
 
-    // brightness functionality
+    // * brightness functionality
     // this is called from the mixin, returns the brightness value as a simple
     // option
     public static SimpleOption<Double> getBrightnessOption() {
@@ -85,6 +96,15 @@ public class ModMain implements ModInitializer {
 
     public static void setInternalFullbrightState(double brightnessValue) {
         internalFullbrightState = (float) brightnessValue;
+    }
+
+    // * ANTIFALL functionality getters and setters */
+    public static boolean getANTIFALL() {
+        return ANTIFALL;
+    }
+
+    public static void setANTIFALL(boolean bool) {
+        ANTIFALL = bool;
     }
 
     // class methods
@@ -173,4 +193,5 @@ public class ModMain implements ModInitializer {
             });
         }
     }
+
 }

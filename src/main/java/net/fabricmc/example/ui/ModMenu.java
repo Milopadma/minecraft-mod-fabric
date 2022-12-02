@@ -41,11 +41,13 @@ public class ModMenu
             ++i;
         }
 
-        // Add a new button
+        // Add a new button // criticals
         this.addDrawableChild(new CriticalsButton(this.width / 2 + 5, this.height / 6 + 144 - 6, 75, 20));
-        // add the new slider
+        // add the new slider // brightness slider
         this.addDrawableChild(new BrightnessSlider(this.width / 2 + 80, this.height / 6 + 144 - 6, 75, 20, "Brightness",
                 windowHeight));
+        // add the new button // antifall
+        this.addDrawableChild(new AntiFallButton(this.width / 2 + 5, this.height / 6 + 120 - 6, 75, 20));
 
         // this.addDrawableChild(new ButtonWidget(this.width / 2 + 5, this.height / 6 -
         // 12 + 24 * (i >> 1), 150, 20,
