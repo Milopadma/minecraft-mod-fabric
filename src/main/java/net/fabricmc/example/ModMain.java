@@ -30,6 +30,7 @@ public class ModMain implements ModInitializer {
     private static double brightnessValue = 5; // on init its 10
     private static float internalFullbrightState = 1.0f; // on init its 1.0f
     private static int maxFullbrightStates = 20;
+    private static boolean ANTIFALL = true; // true by default //TODO change this to false later
 
     // client init
     public static MinecraftClient client = MinecraftClient.getInstance();
@@ -43,7 +44,7 @@ public class ModMain implements ModInitializer {
             });
 
     // class methods
-    // criticals functionality
+    // * criticals functionality
     public static boolean isCriticalsEnabled() {
         return isCriticalsEnabled;
     }
@@ -52,7 +53,7 @@ public class ModMain implements ModInitializer {
         isCriticalsEnabled = bool;
     }
 
-    // brightness functionality
+    // * brightness functionality
     // this is called from the mixin, returns the brightness value as a simple
     // option
     public static SimpleOption<Double> getBrightnessOption() {
@@ -85,6 +86,11 @@ public class ModMain implements ModInitializer {
 
     public static void setInternalFullbrightState(double brightnessValue) {
         internalFullbrightState = (float) brightnessValue;
+    }
+
+    // * ANTIFALL functionality getters and setters */
+    public static boolean getANTIFALL() {
+        return ANTIFALL;
     }
 
     // class methods
@@ -173,4 +179,5 @@ public class ModMain implements ModInitializer {
             });
         }
     }
+
 }
