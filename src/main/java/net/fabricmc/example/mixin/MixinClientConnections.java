@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import net.fabricmc.example.ModMain;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.c2s.play.*;
@@ -13,9 +14,15 @@ import net.minecraft.util.math.Vec3d;
 @Mixin(ClientConnection.class)
 public class MixinClientConnections {
     // class fields
+    MinecraftClient client = MinecraftClient.getInstance();
+
     @ModifyVariable(at = @At("HEAD"), method = "sendInternal", ordinal = 0)
     // this modifies the packet sent from the client to the server
     public Packet<?> sendInternal(Packet<?> packet) {
+        if (ModMain.player == null) {
+            // if its null, get the player from the packet data
+            ModMain.player = client.player;
+        }
         // this is a mixin for the client connection class, overlays over the actual
         // class to add our own functionality to it
         // check if the ANTIFALL option is enabled from ModMain first

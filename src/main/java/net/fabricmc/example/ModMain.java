@@ -22,6 +22,7 @@ import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
+import net.minecraft.world.World;
 
 public class ModMain implements ModInitializer {
     private static final String MOD_ID = "fullbright+crit";
@@ -36,7 +37,13 @@ public class ModMain implements ModInitializer {
 
     // client init
     public static MinecraftClient client = MinecraftClient.getInstance();
-    public static ClientPlayerEntity player;
+    public static ClientPlayerEntity player = MinecraftClient.getInstance().player;
+
+    public static World clientWorld = MinecraftClient.getInstance().world;
+
+    public static void setPlayer(ClientPlayerEntity clientPlayerEntity) {
+        player = clientPlayerEntity;
+    }
 
     // brightness gamma value bypass by using a new simpleoption
     private static final SimpleOption<Double> gammaBypass = new SimpleOption<>("options.gamma",
@@ -186,4 +193,5 @@ public class ModMain implements ModInitializer {
             });
         }
     }
+
 }

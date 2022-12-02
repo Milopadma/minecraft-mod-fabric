@@ -24,7 +24,7 @@ import net.minecraft.text.Text;
 
 public class AntiFallButton extends PressableWidget {
     // private static final Random RANDOM = Random.create();
-    public static String label = "Criticals: ON"; // its on by default
+    public static String label = "Antifall: ON"; // its on by default
 
     // constructor
     public AntiFallButton(int x, int y, int width, int height) {
@@ -38,16 +38,16 @@ public class AntiFallButton extends PressableWidget {
 
     @Override
     public void onPress() {
-        // toggle criticals
+        // toggle antifall
         if (ModMain.isCriticalsEnabled()) {
             ModMain.setCriticalsEnabled(false);
-            setName("Criticals: OFF");
-            this.setMessage(Text.of("Criticals: OFF"));
+            setName("Antifall: OFF");
+            this.setMessage(Text.of("Antifall: OFF"));
             // to reload the screen options
         } else {
             ModMain.setCriticalsEnabled(true);
-            setName("Criticals: ON");
-            this.setMessage(Text.of("Criticals: ON"));
+            setName("Antifall: ON");
+            this.setMessage(Text.of("Antifall: ON"));
         }
     }
 
