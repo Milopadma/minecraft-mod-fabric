@@ -10,6 +10,7 @@ import net.minecraft.network.ClientConnection;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.c2s.play.*;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 
 @Mixin(ClientConnection.class)
 public class MixinClientConnections {
