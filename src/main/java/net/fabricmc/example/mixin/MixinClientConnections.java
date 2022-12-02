@@ -8,9 +8,11 @@ import net.fabricmc.example.ModMain;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.c2s.play.*;
+import net.minecraft.util.math.Vec3d;
 
 @Mixin(ClientConnection.class)
 public class MixinClientConnections {
+
     @ModifyVariable(at = @At("HEAD"), method = "sendInternal", ordinal = 0)
     // this modifies the packet sent from the client to the server
     public Packet<?> sendInternal(Packet<?> packet) {
@@ -20,9 +22,20 @@ public class MixinClientConnections {
         if (ModMain.getANTIFALL()) {
             // if it is enabled, get every packet of instance PlayerMoveC2SPacket.Full OR
             // PlayerMoveC2SPacket.PositionAndOnGround
-            if (packet instanceof PlayerActionC2SPacket) {
-                // log this into the console 
-                ModMain.log.info("PlayerActionC2SPacket packet sent to server");
+            if (packet instanceof PlayerMoveC2SPacket.Full
+                    || packet instanceof PlayerMoveC2SPacket.PositionAndOnGround) {
+                // log this into the console
+                ModMain.log.info("PlayerMoveC2SPacket packet sent to server");
+                // cant really use deltas here, so just find the velocity.
+                // this is the yvelocity of the player
+                Double yVelocity = ModMain.player.getVelocity().y;
+                // if the yvelocity is less than -0.7, then the player is falling
+                if(yVelocity < -0.7){
+                    // set a new velocity to cancel the fall
+                    ModMain.player.setVelocity(new Vec3d(0, 0, 0));
+                    // log this into the console
+                    ModMain.log.info("PlayerMoveC2SPacket packet cancelled");
+                }
             }
         }
         return packet;

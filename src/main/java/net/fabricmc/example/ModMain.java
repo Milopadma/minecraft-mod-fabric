@@ -1,6 +1,7 @@
 package net.fabricmc.example;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.deprecated.ExampleMod;
 import net.fabricmc.example.ui.ModMenu;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
 
@@ -34,6 +36,7 @@ public class ModMain implements ModInitializer {
 
     // client init
     public static MinecraftClient client = MinecraftClient.getInstance();
+    public static ClientPlayerEntity player = client.player;
 
     // brightness gamma value bypass by using a new simpleoption
     private static final SimpleOption<Double> gammaBypass = new SimpleOption<>("options.gamma",
