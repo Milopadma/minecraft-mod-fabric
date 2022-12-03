@@ -48,6 +48,8 @@ public class ModMenu
                 windowHeight));
         // add the new button // antifall
         this.addDrawableChild(new AntiFallButton(this.width / 2 + 5, this.height / 6 + 120 - 6, 75, 20));
+        // add the new button // scaffold
+        this.addDrawableChild(new ScaffoldButton(this.width / 2 + 80, this.height / 6 + 120 - 6, 75, 20));
 
         // this.addDrawableChild(new ButtonWidget(this.width / 2 + 5, this.height / 6 -
         // 12 + 24 * (i >> 1), 150, 20,
