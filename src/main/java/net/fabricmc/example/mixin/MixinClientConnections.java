@@ -27,7 +27,7 @@ public class MixinClientConnections {
         // this is a mixin for the client connection class, overlays over the actual
         // class to add our own functionality to it
         // check if the ANTIFALL option is enabled from ModMain first
-        if (ModMain.getANTIFALL()) {
+        if (ModMain.isAntifallEnabled()) {
             // if it is enabled, get every packet of instance PlayerMoveC2SPacket.Full OR
             // PlayerMoveC2SPacket.PositionAndOnGround
             if (packet instanceof PlayerMoveC2SPacket.Full

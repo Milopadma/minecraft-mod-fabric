@@ -39,13 +39,13 @@ public class AntiFallButton extends PressableWidget {
     @Override
     public void onPress() {
         // toggle antifall
-        if (ModMain.isCriticalsEnabled()) {
-            ModMain.setCriticalsEnabled(false);
+        if (ModMain.isAntifallEnabled()) {
+            ModMain.setANTIFALL(false);
             setName("Antifall: OFF");
             this.setMessage(Text.of("Antifall: OFF"));
             // to reload the screen options
         } else {
-            ModMain.setCriticalsEnabled(true);
+            ModMain.setANTIFALL(true);
             setName("Antifall: ON");
             this.setMessage(Text.of("Antifall: ON"));
         }

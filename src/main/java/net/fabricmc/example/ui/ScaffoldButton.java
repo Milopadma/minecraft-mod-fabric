@@ -38,15 +38,15 @@ public class ScaffoldButton extends PressableWidget {
     @Override
     public void onPress() {
         // toggle antifall
-        if (ModMain.isCriticalsEnabled()) {
-            ModMain.setCriticalsEnabled(false);
+        if (ModMain.isScaffoldEnabled()) {
+            ModMain.setScaffoldEnabled(false);
             setName("Scaffold: OFF");
             this.setMessage(Text.of("Scaffold: OFF"));
             // to reload the screen options
         } else {
-            ModMain.setCriticalsEnabled(true);
+            ModMain.setScaffoldEnabled(true);
             setName("Scaffold: ON");
-            this.setMessage(Text.of("Scaffold: OFF"));
+            this.setMessage(Text.of("Scaffold: ON"));
         }
     }
 

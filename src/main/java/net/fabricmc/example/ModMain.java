@@ -56,6 +56,15 @@ public class ModMain implements ModInitializer {
             });
 
     // class methods
+    // * Scaffold functionality */
+    public static boolean isScaffoldEnabled() {
+        return SCAFFOLD;
+    }
+
+    public static void setScaffoldEnabled(boolean scaffoldEnabled) {
+        SCAFFOLD = scaffoldEnabled;
+    }
+
     // * criticals functionality
     public static boolean isCriticalsEnabled() {
         return isCriticalsEnabled;
@@ -101,7 +110,7 @@ public class ModMain implements ModInitializer {
     }
 
     // * ANTIFALL functionality getters and setters */
-    public static boolean getANTIFALL() {
+    public static boolean isAntifallEnabled() {
         return ANTIFALL;
     }
 
