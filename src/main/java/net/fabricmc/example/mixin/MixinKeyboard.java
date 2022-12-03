@@ -10,6 +10,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.input.KeyboardInput;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.Direction;
 
 @Mixin(value = KeyboardInput.class)
 public class MixinKeyboard {
@@ -34,8 +36,18 @@ public class MixinKeyboard {
                     && ModMain.player.getMainHandStack().getItem().getGroup().equals(ItemGroup.BUILDING_BLOCKS)) {
                 // log this to console
                 ModMain.log.info("Scaffold is on");
-                // if so, then set the player's velocity to 0.1
-                ModMain.player.setVelocity(ModMain.player.getVelocity().x, 0.1, ModMain.player.getVelocity().z);
+                // try to place the block below the player and log the result to console
+                try {
+
+                    ModMain.client.interactionManager.interactBlock(ModMain.player, ModMain.player.getActiveHand(),
+                            new BlockHitResult(ModMain.player.getPos(), Direction.DOWN,
+                                    ModMain.player.getBlockPos().down(), false));
+                    ModMain.log.info("Block placed");
+                } catch (Exception e) {
+                    ModMain.log.info("Block not placed");
+                }
+            } else {
+                return;
             }
         }
     }

@@ -33,7 +33,7 @@ public class MixinClientConnections {
             if (packet instanceof PlayerMoveC2SPacket.Full
                     || packet instanceof PlayerMoveC2SPacket.PositionAndOnGround) {
                 // log this into the console
-                ModMain.log.info("PlayerMoveC2SPacket packet sent to server");
+                // ModMain.log.info("PlayerMoveC2SPacket packet sent to server");
                 // cant really use deltas here, so just find the velocity.
                 // this is the yvelocity of the player
                 Double yVelocity = ModMain.player.getVelocity().y;
@@ -49,7 +49,7 @@ public class MixinClientConnections {
                         // not sure what this does yet
                         ModMain.player.velocityDirty = true;
                         // log this into the console
-                        ModMain.log.info("Player is falling, cancelling velocity");
+                        // ModMain.log.info("Player is falling, cancelling velocity");
                     }
                 }
             }
