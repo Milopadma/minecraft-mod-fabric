@@ -44,12 +44,12 @@ public class MixinKeyboard {
                 if (ModMain.player.getMainHandStack().getItem().getGroup().equals(ItemGroup.BUILDING_BLOCKS)
                         && ModMain.player.getOffHandStack().getItem().getGroup().equals(ItemGroup.BUILDING_BLOCKS)) {
                     if (ModMain.player.isOnGround()
-                            && ModMain.clientWorld.getBlockState(ModMain.player.getBlockPos().down()).isAir()
+                            && (ModMain.clientWorld.getBlockState(ModMain.player.getBlockPos().down()).isAir()
                             // also check if its water and lava
-                            && ModMain.clientWorld.getBlockState(ModMain.player.getBlockPos().down()).getFluidState()
+                            || ModMain.clientWorld.getBlockState(ModMain.player.getBlockPos().down()).getFluidState()
                                     .getFluid() == Fluids.WATER
-                            && ModMain.clientWorld.getBlockState(ModMain.player.getBlockPos().down()).getFluidState()
-                                    .getFluid() == Fluids.LAVA)
+                            || ModMain.clientWorld.getBlockState(ModMain.player.getBlockPos().down()).getFluidState()
+                                    .getFluid() == Fluids.LAVA))
                                     {
                         // log this to console
                         ModMain.log.info("Scaffold is on");
