@@ -9,7 +9,6 @@ import net.fabricmc.example.ModMain;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.input.KeyboardInput;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Hand;
@@ -22,9 +21,6 @@ public class MixinKeyboard {
     MinecraftClient client = MinecraftClient.getInstance();
     ClientWorld thisWorld = client.world;
 
-    // water fluid and lava fluid
-    Fluid water = Fluids.WATER;
-
     Hand CURRENT_HAND = null; // nullify this first
 
     // overlays over keyboard inputs.
@@ -35,7 +31,6 @@ public class MixinKeyboard {
             ModMain.client.world = thisWorld;
             ModMain.client.player = client.player;
         }
-
         // for the scaffold functionality
         if (ModMain.isScaffoldEnabled()) {
             try {
@@ -62,11 +57,7 @@ public class MixinKeyboard {
                 // also check if its null first to avoid console spam
                 try {
                     if (CURRENT_HAND != null) {
-                        // set the current hand correctly, prioritizing the main hand
-                        // CURRENT_HAND = ModMain.player.getMainHandStack().getItem().getGroup()
-                        // .equals(ItemGroup.BUILDING_BLOCKS) ? Hand.MAIN_HAND : Hand.OFF_HAND;
-                        ModMain.log.info("Current hand: " + CURRENT_HAND);
-
+                        // ModMain.log.info("Current hand: " + CURRENT_HAND);
                         // then do the checks of ground
                         if (ModMain.player.isOnGround()) {
 
@@ -76,39 +67,35 @@ public class MixinKeyboard {
                                             .getFluidState().getFluid() == Fluids.WATER
                                     || ModMain.clientWorld.getBlockState(ModMain.player.getBlockPos().down())
                                             .getFluidState().getFluid() == Fluids.LAVA) {
-                                // log this to console
-                                // ModMain.log.info("Scaffold is on");
                                 // try to place the block below the player and log the result to console
                                 try {
                                     ModMain.client.interactionManager.interactBlock(ModMain.player,
-                                            // ModMain.player.getActiveHand(),
                                             CURRENT_HAND,
                                             new BlockHitResult(ModMain.player.getPos(), Direction.DOWN,
                                                     ModMain.player.getBlockPos().down(), false));
                                     // ModMain.log.info("Block placed");
                                 } catch (Exception e) {
-                                    ModMain.log.info("Block not placed" + e);
+                                    // ModMain.log.info("Block not placed" + e);
+                                    return;
                                 }
                             } else {
+                                // theres blocks below
                                 return;
                             }
                         }
-                        // }
-                        // else if
-                        // (ModMain.player.getOffHandStack().getItem().getGroup().equals(ItemGroup.BUILDING_BLOCKS))
-                        // {
-                        // ModMain.log.info("Current hand offhand");
                     } else {
-                        ModMain.log.info("Current hand not building blocks");
+                        // current hand null
+                        // ModMain.log.info("Current hand not building blocks");
+                        return;
                     }
                 } catch (Exception e) {
                     // log this
-                    ModMain.log.info("Err" + e);
+                    // ModMain.log.info("Err" + e);
                     return;
                 }
             } catch (Exception e) {
                 // log this
-                ModMain.log.info("Err" + e);
+                // ModMain.log.info("Err" + e);
                 return;
             }
         }
