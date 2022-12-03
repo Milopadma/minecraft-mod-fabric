@@ -22,12 +22,11 @@ import net.minecraft.client.gui.screen.narration.NarrationMessageBuilder;
 import net.minecraft.client.gui.widget.PressableWidget;
 import net.minecraft.text.Text;
 
-public class AntiFallButton extends PressableWidget {
-    // private static final Random RANDOM = Random.create();
-    public static String label = "Antifall: ON"; // its on by default
+public class ScaffoldButton extends PressableWidget {
+    public static String label = "Scaffold: ON"; // its on by default
 
     // constructor
-    public AntiFallButton(int x, int y, int width, int height) {
+    public ScaffoldButton(int x, int y, int width, int height) {
         super(x, y, width, height, Text.of(label));
     }
 
@@ -39,15 +38,15 @@ public class AntiFallButton extends PressableWidget {
     @Override
     public void onPress() {
         // toggle antifall
-        if (ModMain.isAntifallEnabled()) {
-            ModMain.setANTIFALL(false);
-            setName("Antifall: OFF");
-            this.setMessage(Text.of("Antifall: OFF"));
+        if (ModMain.isScaffoldEnabled()) {
+            ModMain.setScaffoldEnabled(false);
+            setName("Scaffold: OFF");
+            this.setMessage(Text.of("Scaffold: OFF"));
             // to reload the screen options
         } else {
-            ModMain.setANTIFALL(true);
-            setName("Antifall: ON");
-            this.setMessage(Text.of("Antifall: ON"));
+            ModMain.setScaffoldEnabled(true);
+            setName("Scaffold: ON");
+            this.setMessage(Text.of("Scaffold: ON"));
         }
     }
 

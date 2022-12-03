@@ -10,7 +10,6 @@ import net.minecraft.network.ClientConnection;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.c2s.play.*;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
 
 @Mixin(ClientConnection.class)
 public class MixinClientConnections {
@@ -23,17 +22,18 @@ public class MixinClientConnections {
         if (ModMain.player == null) {
             // if its null, get the player from the packet data
             ModMain.player = client.player;
+            ModMain.clientWorld = client.world;
         }
         // this is a mixin for the client connection class, overlays over the actual
         // class to add our own functionality to it
         // check if the ANTIFALL option is enabled from ModMain first
-        if (ModMain.getANTIFALL()) {
+        if (ModMain.isAntifallEnabled()) {
             // if it is enabled, get every packet of instance PlayerMoveC2SPacket.Full OR
             // PlayerMoveC2SPacket.PositionAndOnGround
             if (packet instanceof PlayerMoveC2SPacket.Full
                     || packet instanceof PlayerMoveC2SPacket.PositionAndOnGround) {
                 // log this into the console
-                ModMain.log.info("PlayerMoveC2SPacket packet sent to server");
+                // ModMain.log.info("PlayerMoveC2SPacket packet sent to server");
                 // cant really use deltas here, so just find the velocity.
                 // this is the yvelocity of the player
                 Double yVelocity = ModMain.player.getVelocity().y;
@@ -49,7 +49,7 @@ public class MixinClientConnections {
                         // not sure what this does yet
                         ModMain.player.velocityDirty = true;
                         // log this into the console
-                        ModMain.log.info("Player is falling, cancelling velocity");
+                        // ModMain.log.info("Player is falling, cancelling velocity");
                     }
                 }
             }

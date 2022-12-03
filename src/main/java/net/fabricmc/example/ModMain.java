@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
+import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
@@ -22,7 +23,7 @@ import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
-import net.minecraft.world.World;
+import net.minecraft.client.world.ClientWorld;
 
 public class ModMain implements ModInitializer {
     private static final String MOD_ID = "fullbright+crit";
@@ -34,12 +35,13 @@ public class ModMain implements ModInitializer {
     private static float internalFullbrightState = 1.0f; // on init its 1.0f
     private static int maxFullbrightStates = 20;
     private static boolean ANTIFALL = true; // true by default //TODO change this to false later
+    public static boolean SCAFFOLD = true; // true by default //TODO change this to false later
 
     // client init
     public static MinecraftClient client = MinecraftClient.getInstance();
     public static ClientPlayerEntity player = MinecraftClient.getInstance().player;
 
-    public static World clientWorld = MinecraftClient.getInstance().world;
+    public static ClientWorld clientWorld = MinecraftClient.getInstance().world;
 
     public static void setPlayer(ClientPlayerEntity clientPlayerEntity) {
         player = clientPlayerEntity;
@@ -54,6 +56,15 @@ public class ModMain implements ModInitializer {
             });
 
     // class methods
+    // * Scaffold functionality */
+    public static boolean isScaffoldEnabled() {
+        return SCAFFOLD;
+    }
+
+    public static void setScaffoldEnabled(boolean scaffoldEnabled) {
+        SCAFFOLD = scaffoldEnabled;
+    }
+
     // * criticals functionality
     public static boolean isCriticalsEnabled() {
         return isCriticalsEnabled;
@@ -99,7 +110,7 @@ public class ModMain implements ModInitializer {
     }
 
     // * ANTIFALL functionality getters and setters */
-    public static boolean getANTIFALL() {
+    public static boolean isAntifallEnabled() {
         return ANTIFALL;
     }
 
