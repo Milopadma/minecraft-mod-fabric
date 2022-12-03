@@ -34,6 +34,7 @@ public class ModMain implements ModInitializer {
     private static float internalFullbrightState = 1.0f; // on init its 1.0f
     private static int maxFullbrightStates = 20;
     private static boolean ANTIFALL = true; // true by default //TODO change this to false later
+    public static boolean SCAFFOLD = true; // true by default //TODO change this to false later
 
     // client init
     public static MinecraftClient client = MinecraftClient.getInstance();
