@@ -22,7 +22,7 @@ import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.text.Text;
-import net.minecraft.world.World;
+import net.minecraft.client.world.ClientWorld;
 
 public class ModMain implements ModInitializer {
     private static final String MOD_ID = "fullbright+crit";
@@ -40,7 +40,7 @@ public class ModMain implements ModInitializer {
     public static MinecraftClient client = MinecraftClient.getInstance();
     public static ClientPlayerEntity player = MinecraftClient.getInstance().player;
 
-    public static World clientWorld = MinecraftClient.getInstance().world;
+    public static ClientWorld clientWorld = MinecraftClient.getInstance().world;
 
     public static void setPlayer(ClientPlayerEntity clientPlayerEntity) {
         player = clientPlayerEntity;

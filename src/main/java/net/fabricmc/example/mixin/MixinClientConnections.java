@@ -22,6 +22,7 @@ public class MixinClientConnections {
         if (ModMain.player == null) {
             // if its null, get the player from the packet data
             ModMain.player = client.player;
+            ModMain.clientWorld = client.world;
         }
         // this is a mixin for the client connection class, overlays over the actual
         // class to add our own functionality to it
