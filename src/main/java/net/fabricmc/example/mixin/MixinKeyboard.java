@@ -42,30 +42,31 @@ public class MixinKeyboard {
             // try to get the block in the players hand
             try {
                 if (ModMain.player.getMainHandStack().getItem().getGroup().equals(ItemGroup.BUILDING_BLOCKS)
-                        && ModMain.player.getOffHandStack().getItem().getGroup().equals(ItemGroup.BUILDING_BLOCKS)) {
-                    if (ModMain.player.isOnGround()
-                            && (ModMain.clientWorld.getBlockState(ModMain.player.getBlockPos().down()).isAir()
-                            // also check if its water and lava
-                            || ModMain.clientWorld.getBlockState(ModMain.player.getBlockPos().down()).getFluidState()
-                                    .getFluid() == Fluids.WATER
-                            || ModMain.clientWorld.getBlockState(ModMain.player.getBlockPos().down()).getFluidState()
-                                    .getFluid() == Fluids.LAVA))
-                                    {
-                        // log this to console
-                        ModMain.log.info("Scaffold is on");
-                        // try to place the block below the player and log the result to console
-                        try {
-                            ModMain.client.interactionManager.interactBlock(ModMain.player,
-                                    ModMain.player.getActiveHand(),
-                                    new BlockHitResult(ModMain.player.getPos(), Direction.DOWN,
-                                            ModMain.player.getBlockPos().down(), false));
-                            ModMain.log.info("Block placed");
-                        } catch (Exception e) {
-                            ModMain.log.info("Block not placed");
+                        || ModMain.player.getOffHandStack().getItem().getGroup().equals(ItemGroup.BUILDING_BLOCKS)) {
+                    if (ModMain.player.isOnGround()) {
+                        if (ModMain.clientWorld.getBlockState(ModMain.player.getBlockPos().down()).isAir()
+                                || ModMain.clientWorld.getBlockState(ModMain.player.getBlockPos().down())
+                                        .getFluidState().getFluid() == Fluids.WATER
+                                || ModMain.clientWorld.getBlockState(ModMain.player.getBlockPos().down())
+                                        .getFluidState().getFluid() == Fluids.LAVA) {
+                            // log this to console
+                            // ModMain.log.info("Scaffold is on");
+                            // try to place the block below the player and log the result to console
+                            try {
+                                ModMain.client.interactionManager.interactBlock(ModMain.player,
+                                        ModMain.player.getActiveHand(),
+                                        new BlockHitResult(ModMain.player.getPos(), Direction.DOWN,
+                                                ModMain.player.getBlockPos().down(), false));
+                                // ModMain.log.info("Block placed");
+                            } catch (Exception e) {
+                                // ModMain.log.info("Block not placed");
+                            }
+                        } else {
+                            return;
                         }
-                    } else {
-                        return;
                     }
+                } else {
+                    return;
                 }
             } catch (Exception e) {
                 return;
