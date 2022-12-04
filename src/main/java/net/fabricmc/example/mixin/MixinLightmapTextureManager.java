@@ -17,7 +17,8 @@ public class MixinLightmapTextureManager {
 	// this passes whatever the option is to the method as everytime
 	// Lightmaptexturemanager is called, the modified brightness value is passed in
 	private SimpleOption<Double> getFieldValue(GameOptions options) {
-		// ModMain.log.info("Brightness value: " + ModMain.getBrightnessOption().getValue());
+		// ModMain.log.info("Brightness value: " +
+		// ModMain.getBrightnessOption().getValue());
 		return ModMain.getBrightnessOption();
 	}
 }

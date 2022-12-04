@@ -1,7 +1,6 @@
 package net.fabricmc.example;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.deprecated.ExampleMod;
 import net.fabricmc.example.ui.ModMenu;
 
 import java.util.List;
@@ -14,10 +13,12 @@ import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
-import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
+import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -40,12 +41,7 @@ public class ModMain implements ModInitializer {
     // client init
     public static MinecraftClient client = MinecraftClient.getInstance();
     public static ClientPlayerEntity player = MinecraftClient.getInstance().player;
-
     public static ClientWorld clientWorld = MinecraftClient.getInstance().world;
-
-    public static void setPlayer(ClientPlayerEntity clientPlayerEntity) {
-        player = clientPlayerEntity;
-    }
 
     // brightness gamma value bypass by using a new simpleoption
     private static final SimpleOption<Double> gammaBypass = new SimpleOption<>("options.gamma",
@@ -151,8 +147,6 @@ public class ModMain implements ModInitializer {
     @Override
     public void onInitialize() {
         log("Initialization");
-        ExampleMod.LOGGER.info("calling from modmain!"); // this calls
-
         AttackEntityCallback.EVENT.register(new EntityClickManager());
         ScreenEvents.AFTER_INIT.register(this::afterInitScreen);
     }
@@ -164,16 +158,9 @@ public class ModMain implements ModInitializer {
             // put the existing buttons in this list
             final List<ClickableWidget> buttons = Screens.getButtons(screen);
             // Add a new button
-            // buttons.add(new CriticalsButton(screen.width / 2 + 5, screen.height / 6 + 144
-            // - 6, 75, 20));
             buttons.add(new ButtonWidget(screen.width / 2 + 5, screen.height / 6 + 144 - 6, 150, 20,
                     Text.translatable("Mylo's Mod Menu"),
                     button -> client.setScreen(new ModMenu(screen, client.options))));
-            // add the new slider
-            // buttons.add(
-            // new BrightnessSlider(screen.width / 2 + 80, screen.height / 6 + 144 - 6, 75,
-            // 20, "Brightness",
-            // windowHeight));
 
             // Testing:
             // Some automatic validation that the screen list works, make sure the buttons
@@ -184,16 +171,6 @@ public class ModMain implements ModInitializer {
                     .orElseThrow(
                             () -> new AssertionError("Failed to find the button in the screen's elements"));
 
-            // // Register render event to draw an icon on the screen
-            // ScreenEvents.afterRender(screen).register((_screen, matrices, mouseX, mouseY,
-            // tickDelta) -> {
-            // // // Render an armor icon to test
-            // // RenderSystem.setShaderTexture(0, InGameHud.GUI_ICONS_TEXTURE);
-            // DrawableHelper.drawTexture(matrices, (screen.width / 2) - 124, (screen.height
-            // / 4) + 96, 20, 20, 34, 9,
-            // 9, 9, 256, 256);
-            // });
-
             ScreenKeyboardEvents.allowKeyPress(screen).register((_screen, key, scancode, modifiers) -> {
                 log.info("After Pressed, Code: {}, Scancode: {}, Modifiers: {}", key, scancode, modifiers);
                 return true; // Let actions continue
@@ -202,6 +179,19 @@ public class ModMain implements ModInitializer {
             ScreenKeyboardEvents.afterKeyPress(screen).register((_screen, key, scancode, modifiers) -> {
                 log.warn("Pressed, Code: {}, Scancode: {}, Modifiers: {}", key, scancode, modifiers);
             });
+        }
+
+        if (screen instanceof TitleScreen || screen instanceof MultiplayerScreen
+                || screen instanceof SelectWorldScreen) {
+            // if client, player and clientWorld are not null, set them to null
+            if (ModMain.player != null || ModMain.clientWorld != null) {
+                ModMain.player = null;
+                ModMain.clientWorld = null;
+                // log this
+                log.info("Player and clientWorld are not null, setting them to null to refresh main fields." +
+                        "Player: " + ModMain.player + " ClientWorld: " + ModMain.clientWorld + "client: " +
+                        ModMain.client);
+            }
         }
     }
 

@@ -51,54 +51,7 @@ public class ModMenu
         // add the new button // scaffold
         this.addDrawableChild(new ScaffoldButton(this.width / 2 + 80, this.height / 6 + 120 - 6, 75, 20));
 
-        // this.addDrawableChild(new ButtonWidget(this.width / 2 + 5, this.height / 6 -
-        // 12 + 24 * (i >> 1), 150, 20,
-        // Text.translatable("options.online"),
-        // button -> this.client.setScreen(new OnlineOptionsScreen(this,
-        // this.settings))));
-        // this.addDrawableChild(new ButtonWidget(this.width / 2 - 155, this.height / 6
-        // + 48 - 6, 150, 20,
-        // Text.translatable("options.skinCustomisation"),
-        // button -> this.client.setScreen(new SkinOptionsScreen(this,
-        // this.settings))));
-        // this.addDrawableChild(new ButtonWidget(this.width / 2 + 5, this.height / 6 +
-        // 48 - 6, 150, 20,
-        // Text.translatable("options.sounds"),
-        // button -> this.client.setScreen(new SoundOptionsScreen(this,
-        // this.settings))));
-        // this.addDrawableChild(new ButtonWidget(this.width / 2 - 155, this.height / 6
-        // + 72 - 6, 150, 20,
-        // Text.translatable("options.video"),
-        // button -> this.client.setScreen(new VideoOptionsScreen(this,
-        // this.settings))));
-        // this.addDrawableChild(new ButtonWidget(this.width / 2 + 5, this.height / 6 +
-        // 72 - 6, 150, 20,
-        // Text.translatable("options.controls"),
-        // button -> this.client.setScreen(new ControlsOptionsScreen(this,
-        // this.settings))));
-        // this.addDrawableChild(new ButtonWidget(this.width / 2 - 155, this.height / 6
-        // + 96 - 6, 150, 20,
-        // Text.translatable("options.language"), button -> this.client.setScreen(
-        // new LanguageOptionsScreen((Screen) this, this.settings,
-        // this.client.getLanguageManager()))));
-        // this.addDrawableChild(new ButtonWidget(this.width / 2 + 5, this.height / 6 +
-        // 96 - 6, 150, 20,
-        // Text.translatable("options.chat.title"),
-        // button -> this.client.setScreen(new ChatOptionsScreen(this,
-        // this.settings))));
-        // this.addDrawableChild(new ButtonWidget(this.width / 2 - 155, this.height / 6
-        // + 120 - 6, 150, 20,
-        // Text.translatable("options.resourcepack"),
-        // button -> this.client.setScreen(
-        // new PackScreen(this, this.client.getResourcePackManager(),
-        // this::refreshResourcePacks,
-        // this.client.getResourcePackDir(),
-        // Text.translatable("resourcePack.title")))));
-        // this.addDrawableChild(new ButtonWidget(this.width / 2 + 5, this.height / 6 +
-        // 120 - 6, 150, 20,
-        // Text.translatable("options.accessibility.title"),
-        // button -> this.client.setScreen(new AccessibilityOptionsScreen(this,
-        // this.settings))));
+        // the DONE button
         this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.height / 6 + 168, 200, 20, ScreenTexts.DONE,
                 button -> this.client.setScreen(this.parent)));
 
