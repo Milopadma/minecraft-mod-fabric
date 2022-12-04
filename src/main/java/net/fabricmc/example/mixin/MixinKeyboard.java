@@ -32,7 +32,7 @@ public class MixinKeyboard {
                 ModMain.player = client.player;
                 // log this
                 ModMain.log.info("MixinKeyboard player null, setting to: " + client.player);
-            } 
+            }
             // check if the world is null
             if (ModMain.clientWorld == null) {
                 ModMain.clientWorld = thisWorld;

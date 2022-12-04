@@ -24,14 +24,11 @@ public class MixinClientConnections {
         try {
             // check if the player is null
             if (ModMain.player == null) {
-                ModMain.player = client.player;
-                // log this
-                ModMain.log.info("MixinClientConnection player null, setting to: " + client.player);
+                return packet;
             }
             // check if the world is null
             if (ModMain.clientWorld == null) {
-                ModMain.clientWorld = thisWorld;
-                ModMain.log.info("MixinClientConnection world null, setting to: " + thisWorld);
+                return packet;
             }
         } catch (Exception e) {
             // log this

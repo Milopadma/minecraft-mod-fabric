@@ -18,7 +18,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
-import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -181,15 +180,15 @@ public class ModMain implements ModInitializer {
             });
         }
 
-        if (screen instanceof TitleScreen || screen instanceof MultiplayerScreen
-                || screen instanceof SelectWorldScreen) {
+        if (screen instanceof TitleScreen || screen instanceof MultiplayerScreen) {
             // if client, player and clientWorld are not null, set them to null
             if (ModMain.player != null || ModMain.clientWorld != null) {
                 ModMain.player = null;
                 ModMain.clientWorld = null;
+
                 // log this
-                log.info("Player and clientWorld are not null, setting them to null to refresh main fields." +
-                        "Player: " + ModMain.player + " ClientWorld: " + ModMain.clientWorld + "client: " +
+                log.info("Player and clientWorld are not null, setting them to null to refresh main fields. \n" +
+                        "Player: " + ModMain.player + " ClientWorld: " + ModMain.clientWorld + "Client: " +
                         ModMain.client);
             }
         }
