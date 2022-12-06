@@ -10,12 +10,13 @@ import org.apache.logging.log4j.Logger;
 
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
-
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -143,10 +144,29 @@ public class ModMain implements ModInitializer {
         log.info("[{}] {}", log.getName(), message);
     }
 
+    // public static void update() {
+    // if (playerTravelledToNewWorld()) {
+    // ModMain.player = MinecraftClient.getInstance().player;
+    // ModMain.clientWorld = MinecraftClient.getInstance().world;
+    // }
+    // }
+
+    // public static boolean playerTravelledToNewWorld() {
+    // return player != MinecraftClient.getInstance().player || clientWorld !=
+    // MinecraftClient.getInstance().world;
+    // }
+
     @Override
     public void onInitialize() {
         log("Initialization");
         AttackEntityCallback.EVENT.register(new EntityClickManager());
+        // register a new event, this is called whenever a world is loaded
+        ClientTickEvents.END_WORLD_TICK.register(world -> {
+            log("World loaded");
+            // update the player and world variables
+            ModMain.player = client.player;
+            ModMain.clientWorld = client.world;
+        });
         ScreenEvents.AFTER_INIT.register(this::afterInitScreen);
     }
 
@@ -180,18 +200,24 @@ public class ModMain implements ModInitializer {
             });
         }
 
-        if (screen instanceof TitleScreen || screen instanceof MultiplayerScreen) {
-            // if client, player and clientWorld are not null, set them to null
-            if (ModMain.player != null || ModMain.clientWorld != null) {
-                ModMain.player = null;
-                ModMain.clientWorld = null;
+        // if (screen instanceof TitleScreen || screen instanceof MultiplayerScreen ||
+        // screen instanceof InventoryScreen) {
+        // // if client, player and clientWorld are not null, set them to null
+        // // dont know if iits a good idea to refresh these two fields on every
+        // inventory
+        // // screen open...
+        // if (ModMain.player != null || ModMain.clientWorld != null) {
+        // ModMain.player = null;
+        // ModMain.clientWorld = null;
 
-                // log this
-                log.info("Player and clientWorld are not null, setting them to null to refresh main fields. \n" +
-                        "Player: " + ModMain.player + " ClientWorld: " + ModMain.clientWorld + "Client: " +
-                        ModMain.client);
-            }
-        }
+        // // log this
+        // log.info("Player and clientWorld are not null, setting them to null to
+        // refresh main fields. \n" +
+        // "Player: " + ModMain.player + " ClientWorld: " + ModMain.clientWorld +
+        // "Client: " +
+        // ModMain.client);
+        // }
+        // }
     }
 
 }
