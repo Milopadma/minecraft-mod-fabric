@@ -29,14 +29,11 @@ public class MixinKeyboard {
         try {
             // check if the player is null
             if (ModMain.player == null) {
-                ModMain.player = client.player;
-                // log this
-                ModMain.log.info("MixinKeyboard player null, setting to: " + client.player);
+                return;
             }
             // check if the world is null
             if (ModMain.clientWorld == null) {
-                ModMain.clientWorld = thisWorld;
-                ModMain.log.info("MixinKeyboard world null, setting to: " + thisWorld);
+                return;
             }
             // for the scaffold functionality
             if (ModMain.isScaffoldEnabled()) {
