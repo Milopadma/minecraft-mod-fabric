@@ -162,7 +162,7 @@ public class ModMain implements ModInitializer {
         AttackEntityCallback.EVENT.register(new EntityClickManager());
         // register a new event, this is called whenever a world is loaded
         ClientTickEvents.END_WORLD_TICK.register(world -> {
-            log("World loaded");
+            // log("World loaded");
             // update the player and world variables
             ModMain.player = client.player;
             ModMain.clientWorld = client.world;
